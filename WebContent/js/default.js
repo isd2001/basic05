@@ -25,21 +25,17 @@ var Sphere=function(r){
 // 2,015,121
 var format = function(data){
 		while(data){
-			var num=0;
-			var t=new Array();
-			var to = data%1000;		//121
-			console.log("to>>"+to);
-			data -=to;		//2,015,000
-			console.log(data);
-			data /=1000;	//2,015
-			t[num] = ','+to;
-			console.log(t[num]);
-			num++;
-				
+			data=""+data;
+			var to = data.length % 3;
+			var len = data.length;
 			
-			
+			var str=data.substring(0,to);
+			while (to<len) {
+				if (str!="")
+					str +=",";
+				str +=data.substring(to,to+3);
+				to +=3;
+			}			
 		}
-		return "0,000";				
-	
-	
+		return str;
 }
