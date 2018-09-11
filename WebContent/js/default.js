@@ -22,16 +22,24 @@ var Sphere=function(r){
 
 }
 
+// 2,015,121
 var format = function(data){
-	this.getresult=function(){
 		while(data){
-			var to = data%1000;
-			console.log(to);
-			data -=to;
-			data /=1000;
-		}
+			var num=0;
+			var t=new Array();
+			var to = data%1000;		//121
+			console.log("to>>"+to);
+			data -=to;		//2,015,000
+			console.log(data);
+			data /=1000;	//2,015
+			t[num] = ','+to;
+			console.log(t[num]);
+			num++;
+				
 			
+			
+		}
 		return "0,000";				
-	}
+	
 	
 }

@@ -40,8 +40,10 @@
 		
 		// 연산중에 자바와 비교해서 다른연산이 일어나는 것만 짚어보면
 		// 1. number div 연산이 몫연산이 아니다. (mod 연산은 같은)
-		console.log(279/60);
-		console.log(279%60);
+		console.log(279 / 6);
+		console.log(279 % 6);
+		console.log(10/3);
+		console.log(10%3);
 		
 		// 2. = , -= , += , /= 이런건 다 같고 , String data 의 +,+= 연산도 같다.
 		data += "!!!!!";
