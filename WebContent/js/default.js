@@ -22,20 +22,26 @@ var Sphere=function(r){
 
 }
 
-// 2,015,121
+//2,015,121
 var format = function(data){
-		while(data){
-			data=""+data;
-			var to = data.length % 3;
-			var len = data.length;
-			
-			var str=data.substring(0,to);
-			while (to<len) {
-				if (str!="")
-					str +=",";
-				str +=data.substring(to,to+3);
-				to +=3;
-			}			
+	re:
+	while(data){
+		data=""+data;
+		var to = data.length % 3;
+		var len = data.length;
+
+		var str=data.substring(0,to);
+		while (to<len) {
+			if (data==0) {
+				break re;
+			}else if(str!=""){
+				str +=",";
+				
+			}
+			str +=data.substring(to,to+3);
+			to +=3;
+			break;
 		}
-		return str;
+	}
+	return str;
 }

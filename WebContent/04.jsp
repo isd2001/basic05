@@ -7,40 +7,47 @@
 <title>자바스크립트</title>
 </head>
 <body>
-	<h1>자바스크립트의 function</h1>
+	<h1>자바스크립트의 배열</h1>
 	<p>
-		function 이 어떤식으로 관리되는지 알아보기 위해서,
-		매개변수도 없고 리턴밸류도 없는 function 을 설계해보았다.
+		스크립트 처리중에 필요하면 , 배열객체를 사용할수 있다.
+		자바스크립트의 배열은 , 자바에 비교했을때 리스트에 가까운 형태이다.
 	</p>
-	<p>
-		자바스크립트로 만들어낼 function 에 매개변수나 , 리턴값이 필요하다면 ..?
-	</p>
-	
-	<button type="button" onclick="d(5);">자바스크립트 함수(number) 콜!</button>
-	<button type="button" onclick="d('자바스크립트');">자바스크립트 함수(String) 콜!</button>
-	
 	<script>
-		// 매개변수부분에 변수명만 적으면 됨.
-		var f=function(a,b){
-			console.log(a+">>"+typeof a);
-			console.log(b+">>"+typeof b);
-			//return typeof a == typeof b;
-			return d;
-		};
+		var ar = new Array();	// [] 이렇게 해도 됨
+		var ar2 = [1,2,45,2];			// [1,2,45,2]; > 처럼 미리 데이터를 두고 세팅할때
 		
-		function d(target){
-			console.log(target + ">> "+ typeof target);
+		console.log(typeof ar+"/"+typeof ar2);
+		// 배열에 length 속성으로 현재 길이를 얻어내수 있다.
+		console.log(ar.length + "/"+ar2.length)
+		// 접근하는 방식은 똑같다 . [index] 로 접근
+		console.log(ar2[ar2.length-1]);
+		console.log(ar[13]);		// 없는 idx는 undefined
+		// 순환 처리 하는건 , 일반 반복문(for) 를 사용해서 처리한다
+		// 데이터를 input하는건 
+		ar2[ar2.length]=45;
+		for (var d = 30; d < 40; d++) {
+			//ar[ar.length] = d;
+			ar.push(d);
 		}
-	
-		// 맞춰서 사용하겠지만
-		f('조로','상디');
-		f(2,"나미");
-		f();					// 꼭그럴 필요는 없다.
-		f(1,true,64.1,"가나다");
+		console.log(ar);
+		console.log(ar2);
 		
-		var t =f(1,5);
-		t("ㅎㅇㅎㅇ");
-	
+		// 특정 index에 데이터 변경은
+		ar[4] =999;
+		console.log(ar);
+		
+		// 데이터 삭제를 할꺼면 , 
+		// splice(제어할 index,삭제할 갯수)
+		ar.splice(3,2);
+		console.log(ar);
+		// splice(제어할 index,삭제할 갯수,추가할 데이터)
+		ar.splice(1,0,"qwe",true,61.15);
+		console.log(ar);
+		// includes --> boolean , indexOf / lastIndexOf
+		console.log(ar.indexOf(38));
+		
+		
+		
 	</script>
 	
 </body>

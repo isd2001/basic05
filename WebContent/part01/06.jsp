@@ -14,17 +14,13 @@
 		독립 js 파일로 만들어두고 연동해서 사용할수 있다.
 	</p>
 	<script>
-		var t=new Array();
-		console.log(t);
-		//t[t.length]=45612;
-		
 		//console.log(t);
 		var s=new Sphere(121);
 		var p=new s.volume();
-		//console.log(p);
-		//console.log(format(p));
-		//console.log(format(45612));			// 45,612
-		//console.log(format(12));			// 12
+		console.log(p);
+		console.log(format(p));
+		console.log(format(45612));			// 45,612
+		console.log(format(12));			// 12
 		console.log(format(2015121));		// 2,015,121
 	</script>
 	
