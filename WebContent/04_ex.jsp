@@ -23,6 +23,7 @@
 		<span></span>
 	</p>
 	<script>
+		var list = new Array();
 		var save = function(target) {
 			console.log(target.value);
 			console.log(target.checked);
