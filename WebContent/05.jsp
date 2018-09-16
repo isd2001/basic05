@@ -1,57 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>자바스크립트</title>
 </head>
-<body style="text-align: center;">
-	<small></small>
-	<h1>자바스크립트</h1>
+<body>
+	<h1>AJAX</h1>
 	<p>
-		자바스크립트에서 날자관련 작업을 하는데 사용되는 Date 객체에 대해서 살펴보고
-		활용해보자.
+		open api 에서 서울시 인구 구별통계를 ajx로 긁어와서 html로 만들어보자. <br /> 주소는
+		http://data.seoul.go.kr/dataList/datasetView.do?infId=419&srvType=S&serviceKind=2&currentPageNo=1
 	</p>
+	<button type="button" onclick="scrap();">데이터가져오기</button>
+	<h3>데이터 읽어온 값</h3>
+	<% for(int i=0;i<5;i++) { %>
+	<ul id="rst<%=i%>"></ul>
+	<%} %>
 	<script>
-		var disp = function(){
-			var str=new Date().toTimeString().split(" ")[0];
-			document.getElementsByTagName("small")[0].innerHTML=str;
+		var scrap = function() {
+			var req = new XMLHttpRequest();
+			req.open("get","http://openapi.seoul.go.kr:8088/sample/xml/octastatapi419/1/5/",true);
+			//var html = "<li>종로구 : 남자 79322명 / 여자 82600명</li>";
+			req.onreadystatechange=function(){
+				if (this.readyState==4) {
+					var resp = this.responseXML;
+					var row = resp.getElementsByTagName("row");
+					console.log(row.length);
+					var j=0;
+					for (var i = 1; i < row.length; i++) {
+						var l=row[i].getElementsByTagName("JACHIGU");
+						var m=row[i].getElementsByTagName("NAMJA_1");
+						var w=row[i].getElementsByTagName("YEOJA_1");
+						var km=row[i].getElementsByTagName("NAMJA_2");
+						var kw=row[i].getElementsByTagName("YEOJA_2");
+						var fm=row[i].getElementsByTagName("NAMJA_3");
+						var fw=row[i].getElementsByTagName("YEOJA_3");
+						
+						for (var k = 0; k < 1; k++) {
+							console.log("local ["+k+"]=="+l[k].innerHTML);
+							console.log("Man ["+k+"]=="+m[k].innerHTML);
+							console.log("Women ["+k+"]=="+w[k].innerHTML);
+							var local = l[k].innerHTML;
+							var man = m[k].innerHTML;
+							var woman = w[k].innerHTML;
+							var kman = km[k].innerHTML;
+							var kwoman = kw[k].innerHTML;
+							var fman = fm[k].innerHTML;
+							var fwoman = fw[k].innerHTML;
+							
+							var html = local+"> 남자 "+man+"명 , 여자 "+woman
+							+"명 (합계="+(parseInt(man)+parseInt(woman))+") / [한국인] 남자 "
+							+kman+"명 , 여자 "+kwoman+" 명 (합계="+(parseInt(kman)+parseInt(kwoman))+") / [외국인] 남자"
+							+fman+"명 , 여자 "+fwoman+" 명 (합계="+(parseInt(fman)+parseInt(fwoman))+")" ;
+							console.log(html);
+							
+							document.getElementById("rst"+j).innerHTML = html;
+							j++;
+						}
+						console.log("----------");	
+					}
+				}
+			}
+			
+			
+			//document.getElementById("rst").innerHTML = html;
+			req.send();
 		};
-		
-		window.setInterval(disp,1000);
-	
-		var n = new Date();		// 현재시간으로 만들어진다.
-		console.log(n);
-		var tt=new Date(1536802496926);
-		console.log(tt);
-		var ttt=new Date("2018-09-14 23:11:20");		// dateformat 에 맞는 문자열 가지고도 만들수 있다.
-		console.log(ttt);
-		var q=new Date(2018,9,12,23,11,20);
-		console.log(q);			// 월데이터를 0부터 설정
-		
-		var t = n.getTime();
-		console.log(t);			// 이 Date객체가 가진 경과시간(ms)
-		
-		console.log(n.getFullYear());		// 년도
-		console.log(n.getYear());			// 년도
-		console.log(n.getMonth());			// 월 (0~11)
-		console.log(n.getDate());			// 날짜 (1~31)
-		console.log(n.getDay());			// 요일 (0~6)
-		console.log(n.getHours());			// 시간 (0~23)
-		console.log(n.getMinutes());		// 분 (0~59)
-		console.log(n.getSeconds());		// 초 (0~59)
-		//=============================================
-		console.log(n.toDateString());		
-		console.log(n.toTimeString());
-		//=============================================
-		console.log(n.toLocaleDateString());
-		console.log(n.toLocaleTimeString());
-		//=============================================
-		console.log(n.toTimeString().split(" ")[0]);
-		
-		
 	</script>
-	
 </body>
 </html>

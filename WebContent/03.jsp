@@ -4,53 +4,89 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자바스크립트</title>
+<title>Ajax 연습</title>
 </head>
 <body>
-	<h1>string 객체</h1>
-	<p>
-		자바스크립트의 string 역시, 객체형 데이터이고 조작함수들이 존재한다.
-	</p>
-	<input type="text" placeholder="input text" onchange="search(this.type, this.value);"/>
-	<input type="checkbox" value="free" onchange="search(this.type, this.value);"/>
+	<h1>가입신청서</h1>
+	<small>아래 양식에 맞춰 값을 설정하세요.<br/></small>
+	
+	<small>
+		1.아이디는 영문숫자기반의 4~12자 (공백, 특수문자불가능 / 첫글자는 영문으로) <br/>
+		2.비밀번호는 4~12자 
+	</small><br/>
+	
+	<form>
+		<p>
+			<b>(*)Account ID :</b> <input type="text" onchange="checkId();" id="id"/><span></span>
+		</p>
+		<p>
+			<b>(*)Password :</b> <input type="password" onkeyup="checkPw();" id="pw"/><span></span>
+		</p>
+		<button type="submit" id="confirm" disabled>확인</button>
+	</form>
+		
 	<script>
-		console.log(document.getElementsByTagName("input")[0].onchange);
 	
-		function search(type , val) {
-			//console.log("type = " + type +" / " +typeof type);
-			//console.log("val = " + val +" / " +typeof val);
-			
-			//length > 길이 (function이 아니다)
-			console.log(val.length);
-			//console.log(val.length());	x
-			
-			// javascript string 의 메서드는 자바 String 이랑 거의 비슷하다.
-			
-			// 0. 문자열 비교 == 로 처리 가능
-			// 1. charAt(index) -> string
-			console.log(val.charAt(0)+"/"+typeof val)
-			// 2. charCodeAt(index) -> number
-			console.log(val.charCodeAt(0)+"/"+typeof val)
-			// 3. startswith , endsWith -> boolean
-			// 4. indexOf, lastIndexOf -> number , includes
-			console.log(val.indexOf("admin")+"//"+val.includes("admin"));
-			// 5. toUpperCase() , toLowerCase()
-			document.title="["+val.trim().toUpperCase()+"]";
-			// 6. areplace() -> string (매개변수 2개 필요)
-			console.log(val.replace("<","&lt;"));
-			// 7. substr() , substring == sloce -> string  >> length , 끝 index 설정안하면 마지막까지 다 처리함.
-			console.log(val.substr(3,2));		// index,length
-			console.log(val.substring(3,5));	// from,end
-			console.log(val.substring(5,3));	// from,end
-			
-			var ar="saan;mocking;te0506".split(";");
-			for (var i = 0; i < ar.length; i++) {
-				console.log(ar[i]);
-			}
-			
-			
+	var ar = [false,false];
+	var valid = function() {
+		console.log("valid() activated");
+		if(ar.includes(false)){
+			document.getElementById("confirm").disabled=true;
+		}else{
+			document.getElementById("confirm").disabled=false;
 		}
+	};
+	/*
+	document.getElementById("id").onchange = function() {
+		
+	}
+	*/
+	var checkId = function() {
+		console.log("checkId() activated");
+		var check = document.getElementById("id").value;
+		if(check.match(/^[a-zA-z]\w{3,11}$/) ==null || check.match(/^" "$/)!=null) {
+			document.getElementsByTagName("span")[0].innerHTML = "양식에 맞게 작성해주세요.";
+		}else{
+			ajax();
+		}
+	};
 	
+	var checkPw = function(a) {
+		console.log("checkPw() activated");
+		var pw = document.getElementById("pw").value;;
+		if(pw.match(/^\w{4,12}$/) ==null) {
+			document.getElementsByTagName("span")[1].innerHTML = "양식에 맞게 작성해주세요.";
+		}else{
+			document.getElementsByTagName("span")[1].innerHTML = "passed";
+			document.getElementsByTagName("span")[1].style.color = "green";
+			ar[1]=true;
+			valid();
+		}
+	};
+	var ajax = function() {
+		console.log("ajax() activated");	
+		var req = new XMLHttpRequest();		
+		req.open("get", "03ajax.jsp?id="+document.getElementById("id").value, true);
+		
+		req.onreadystatechange = function () {
+			if(this.readyState==4){				
+				console.log("resp = "+this.responseText);
+				if(this.responseText.trim()=="true") {
+					document.getElementsByTagName("span")[0].innerHTML = "이미사용중인 아이디 입니다."
+					document.getElementsByTagName("span")[0].style.color = "red";
+					ar[0]=false;
+					valid();
+				}else {
+					document.getElementsByTagName("span")[0].innerHTML = "사용가능한 아이디 입니다."
+					document.getElementsByTagName("span")[0].style.color = "green";
+					ar[0]=true;
+					valid();
+				}
+			}
+		}
+		req.send();
+	};
 	</script>
+	
 </body>
 </html>

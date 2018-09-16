@@ -4,39 +4,45 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자바스크립트</title>
+<title>자바스트립트</title>
 </head>
 <body>
-	<h1>자바스크립트의 객체</h1>
+	<h1>XMLHttpRequest</h1>
 	<p>
-		자바스크립트에도 객체가 있다. (객체? )
+		xhr을 이용한 ajax는 비동기true/동기false 를 설정해서 쓸수가 있다.
 	</p>
+	<p>
+		비동기(true) 같은 경우는 사용자가 ajax가 작동하는 동안  HTML을 사용하는데 있어서 제약이 없다.
+		반면 동기(false) 설정시엔 사용자 HTML에 응답이 날라올때까지 지연이 발생하게 돼있다.
+	</p>
+	<p>
+		false 처리해서 동기방식을 했다면 send 이후 responseText 를 확인하면 응답이 들어가져 있기 대문에
+		응답처리가 단순가지만, true처리해서 비동기를 했다면 readyState를 체크해야 한다.
+	</p>
+	<button type="button" onclick="ajax();">AJAX</button>
 	<script>
-		// Boolean 객체 >> true , false 자체가 객체라고 생각하면 된다.
-		console.log(true.toString());		// ""+true
-		
-		// Number 객체
-		var n=123456;
-		console.log(typeof n);
-		console.log(n.toString());
-		
-		console.log((123456).toString());
-		
-		console.log((123.456).toExponential());		// 지수 표기
-		
-		var d = 123.456789;
-		console.log(d.toFixed(2));			// 소주점 이하 제한
-		console.log(d.toFixed(3));
-		console.log((25).toFixed(2));
-		
-		console.log((456289).toPrecision(3));
-		console.log((456789).toPrecision(2));
-		console.log((456.789).toPrecision(4));
-		
-		// toLocaleString()	-> 수치를 지역에 맞는 표기형태로 변경
-		console.log((123456789).toLocaleString());		
-		
+		var ajax = function() {
+			var req = new XMLHttpRequest();
+			console.log(req.readyState); // xhr 상태값인데 0 ~ 4 까지 존재함
+			console.log("=================");
+			req.open("get", "02ajax.jsp", true);
+			
+			req.onreadystatechange = function () {
+				console.log("function.."+this.readyState);
+				if(this.readyState==4){
+					console.log("resp = "+this.responseText);
+					if(this.responseText=="true") {
+						window.alert("GOOODDD!");
+					}else {
+						window.alert("BAAADDDD!");
+					}
+				}
+			}
+			
+			req.send();
+ 			console.log(req.readyState); // 2:요청지도착 / 3:응답수신시작 / 4:응답수신완료
+ 			console.log("=================");
+		};
 	</script>
-	
 </body>
 </html>

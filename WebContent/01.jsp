@@ -7,34 +7,34 @@
 <title>자바스크립트</title>
 </head>
 <body>
-	<h1>자바스크립트의 함수 및 객체</h1>
-	<p>	
-		스크립트 안 에서 별도의 설정없이 사용할수 있는 기본 글로벌 함수,변수 라는게 몇가지 있다.살펴보자
+	<h1>자바스크립트</h1>
+	<p>
+		이번에 살펴볼 객체는 XMLHttoRequest 라는 객체이다. <br/>
+		이 객체는 중요하다. AJAX 라는걸 할대 사용된다.
 	</p>
+	<h2>AJAX (Asynchronous JavaScript And XML) ?</h2>
+	<p>
+		Ajax는 자바스크립트를 이용한 서버측과 데이터를 주고받는 비동기 통신 작업이다. 
+	</p>
+	<input type="text" id="txt"/>
+	<button type="button" id="req">AJAX</button>
 	<script>
-	// undefined
-	var d;
-	console.log(d==undefined);
-	console.log(NaN);					// Not a Number
-	console.log((v1*v2) == NaN);		// isNaN 으로 체크가 가능 , == 로 체크가 안된다.
-	console.log(Infinity);				// 무한
-	console.log(10/0== Infinity);		// isFinite 유한체크
+		document.getElementById("req").onclick = function() {
+			console.log(this.type + "/" + this.id +"/" + this.innerHTML);
+			var val = document.getElementById("txt").value;
+			//==========================================================
+			var xhr = new XMLHttpRequests("true"); // 서버측과 데이터 통신을 하는 객체
+			xhr.open("get", "01ajax.jsp?word="+val, true); // 요청방식, 목적지, 비동기 설정(true=비동기 / false = 동기)
+			xhr.send();
+			// true로 설정해서 사용하는게 권장인데, 응답처리가 힘듬
+			// false 는 비권장 이지만, 응답처리가 쉬움.
+			console.log("xhr.responseText = "+xhr.responseText);
+			console.log(xhr.responseText.trim()=="response");
+			
+		};
 	
-	var v1=window.prompt("Input V1");
-	var v2=window.prompt("Input V2");
-	console.log(v1+v2);
-	console.log(v1-v2);
 	
-	// parseInt , parseFloat
-	console.log(parseInt("123"));			// String -> 정수부만 추출한 number
-	console.log(parseInt("123.456"));		// 실수수치 문자열 -> 정수부만 추출
-	console.log(parseInt(123.456));			// number형 데이터 -> 정수부만 추출
-	
-	console.log(parseFloat("123"));			// 정수형태 문자열 처리했을때 -> 실수부가 0이 붙거나 그러진 않음			
-	console.log(parseFloat("123.456"));		// String -> 실수부를 포함한 number
-	console.log(parseFloat(123.456));		// 큰의미 없음
-		
 	</script>
-
+	
 </body>
 </html>

@@ -7,48 +7,58 @@
 <title>자바스크립트</title>
 </head>
 <body>
-	<h1>자바스크립트의 배열</h1>
+	<h1>XML ?? JSON ??</h1>
 	<p>
-		스크립트 처리중에 필요하면 , 배열객체를 사용할수 있다.
-		자바스크립트의 배열은 , 자바에 비교했을때 리스트에 가까운 형태이다.
+		ajax를 사용해서 서버측과 데이터를 주고 받는 작업을 해보았다.
+		그러면서 동기,비동기에 따라서 다른 설정을 통해 응답처리를 해야된다는것까지도..
 	</p>
+	<p>
+		ajax 는 asynchronous javascript and xml 의 약자
+		자바스크립트로 서버측과 비동기 통신을 의미하는데 xml 이라는 게 기술명에 붙어있다.
+		xml 은 왜 붙어 있는거냐??
+	</p>
+	<p>
+		서버측에서 데이터를 받아와야될때, 단순히 true, false 데이터가 아니라, 엄청난양을 읽어와야 할때가 있다.
+		그럴때 서버측에서 데이터 전송도 편하게 하고 받아와서 처리도 편하게 하기 위해 그때 사용되는게 XML이다. 
+	</p>
+	<p>
+		데이터 전송을 편하게 하기 위해서 채택했던게 XML 인데, 이게 그렇게 쓰기 편하진 않다.
+		그래서 Ajax 기술이 발전되면서 xml보다 좀더 효율적인 데이터표기를 쓰기 시작했는데 이게 JSON 이다.
+	</p>
+	<button type="button" onclick="ajax();">ajax (XML)</button>
+	<%
+		String[] gu = "강남구,강동구,강북구,강서구,관악구,광진구,구로구,금천구".split(",");
+		for(int i=0; i<gu.length; i++) {
+	%>
+		<input type="checkbox" value="<%=gu[i] %>"/><%=gu[i] %>
+	<%
+	}
+	%>
 	<script>
-		var ar = new Array();	// [] 이렇게 해도 됨
-		var ar2 = [1,2,45,2];			// [1,2,45,2]; > 처럼 미리 데이터를 두고 세팅할때
-		
-		console.log(typeof ar+"/"+typeof ar2);
-		// 배열에 length 속성으로 현재 길이를 얻어내수 있다.
-		console.log(ar.length + "/"+ar2.length)
-		// 접근하는 방식은 똑같다 . [index] 로 접근
-		console.log(ar2[ar2.length-1]);
-		console.log(ar[13]);		// 없는 idx는 undefined
-		// 순환 처리 하는건 , 일반 반복문(for) 를 사용해서 처리한다
-		// 데이터를 input하는건 
-		ar2[ar2.length]=45;
-		for (var d = 30; d < 40; d++) {
-			//ar[ar.length] = d;
-			ar.push(d);
-		}
-		console.log(ar);
-		console.log(ar2);
-		
-		// 특정 index에 데이터 변경은
-		ar[4] =999;
-		console.log(ar);
-		
-		// 데이터 삭제를 할꺼면 , 
-		// splice(제어할 index,삭제할 갯수)
-		ar.splice(3,2);
-		console.log(ar);
-		// splice(제어할 index,삭제할 갯수,추가할 데이터)
-		ar.splice(1,0,"qwe",true,61.15);
-		console.log(ar);
-		// includes --> boolean , indexOf / lastIndexOf
-		console.log(ar.indexOf(38));
-		
-		
+		var ajax = function () {
+			var req = new XMLHttpRequest();
+			req.open("get", "04ajax.jsp", true);
+			req.onreadystatechange=function(){
+				if(this.readyState==4){
+					var resp = this.responseXML;
+					//var flag = resp.getElementsByTagName("flag")[0].innerHTML;
+					//console.log("flag = "+flag)
+					var datalist = resp.getElementsByTagName("data-list");
+					console.log(datalist.length);
+					for (var i =0; i<datalist.length; i++){
+						
+						var data = datalist[i].getElementsByTagName("data");
+						console.log(data);
+						for(var ii=0; ii<data.length; ii++) {
+							console.log("data["+ii+"] = "+data[ii].innerHTML);	
+						}
+						console.log("----------");						
+					}
+				}
+			};
+			req.send();
+		};
 		
 	</script>
-	
 </body>
 </html>
