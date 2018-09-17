@@ -40,13 +40,13 @@
 			req.open("get", "04ajax.jsp", true);
 			req.onreadystatechange=function(){
 				if(this.readyState==4){
+					
 					var resp = this.responseXML;
 					//var flag = resp.getElementsByTagName("flag")[0].innerHTML;
 					//console.log("flag = "+flag)
 					var datalist = resp.getElementsByTagName("data-list");
 					console.log(datalist.length);
 					for (var i =0; i<datalist.length; i++){
-						
 						var data = datalist[i].getElementsByTagName("data");
 						console.log(data);
 						for(var ii=0; ii<data.length; ii++) {
